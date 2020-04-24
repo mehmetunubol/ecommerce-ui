@@ -12,13 +12,18 @@ export class Cart extends Component {
       super(props);
     
       this.state = {
-        opacity: new Animated.Value(1)
+        opacity: new Animated.Value(1),
+        cartItems: null
       };
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.cartItems !== this.props.cartItems) {
+    getDerivedStateFromProps(props, state) {
+        if (props.cartItems !== state.cartItems) {
             this.startAnimation();
+            return {
+                cartItems: props.cartItems,
+            };
         }
+        return null;
     }
     startAnimation(){
         Animated.timing(this.state.opacity,

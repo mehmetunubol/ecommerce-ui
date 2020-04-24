@@ -11,17 +11,10 @@ import { fetchProducts } from '../redux/actions/productAction';
 import Logo from '../components/Logo.component';
 import Cart from '../components/Cart.component';
 class Products extends Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTitle: 'Products',
-      headerLeft: <Logo navigation={navigation}/>,
-      headerRight: <Cart navigation={navigation}/>
-    }
-  }
   constructor(props) {
       super(props);
   }
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.props.fetchProducts();
   }
   addItemsToCart = (product) => {
@@ -34,10 +27,10 @@ class Products extends Component {
           
         <View style={styles.body}>
           <FlatList 
-          data={products} 
-          renderItem={({item}) => <Product item={item} addItemsToCart={this.addItemsToCart} product={item}/>}
-          keyExtractor ={(item) => item.id}
-          ItemSeparatorComponent= {()=> <View style={{height:0.5, backgroundColor:'#34495e90'}}/> }/>
+            data={products} 
+            renderItem={({item}) => <Product item={item} addItemsToCart={this.addItemsToCart} product={item}/>}
+            keyExtractor ={(item) => item.id}
+            ItemSeparatorComponent= {()=> <View style={{height:0.5, backgroundColor:'#34495e90'}}/> }/>
         </View>
       </View>
     );

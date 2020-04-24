@@ -1,6 +1,6 @@
 import { ADD_ORDER } from '../actions/types';
 const initialState = {
-        order: {
+    order: {
         items: [],
         customer: {}
     }
