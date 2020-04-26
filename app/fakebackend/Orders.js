@@ -2,7 +2,8 @@ import { getProducts } from '../data';
 
 export const getAllOrders = (user) => {
     const orders = [
-        {   orderId: "1",
+        {   
+            id: "1",
             address: "Order address",
             status: "Shipping",
             totalPrice: "60.99",
@@ -19,7 +20,8 @@ export const getAllOrders = (user) => {
                 }
             ],
         },
-        {   orderId: "2",
+        {   
+            id: "2",
             address: "Order address 2",
             status: "Delivered",
             totalPrice: "2",
