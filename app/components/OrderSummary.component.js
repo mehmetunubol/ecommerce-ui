@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { 
-    View, 
-    Text,
-    StyleSheet,
-    TouchableOpacity 
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+
 class OrderSummary extends Component {
     render() {
         const { item } = this.props;
@@ -19,6 +15,7 @@ class OrderSummary extends Component {
     );
     }
 }
+
 const styles = StyleSheet.create({
     container:{
         flex: 1
@@ -34,4 +31,5 @@ const styles = StyleSheet.create({
         margin: 5
     }
 });
+
 export default OrderSummary;

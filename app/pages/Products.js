@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import {  
-    View, 
-    StyleSheet, 
-    FlatList,
-} from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import  Product  from '../components/Product.component';
+import ProductsComponent  from '../components/Products.component';
+import Cart from '../components/Cart.component';
+import Checkout from '../pages/Checkout';
+import Receipt from '../pages/Receipt';
 import { addToCart } from '../redux/actions/cartActions';
 import { fetchProducts } from '../redux/actions/productAction';
-import Logo from '../components/Logo.component';
-import Cart from '../components/Cart.component';
+
+const Stack = createStackNavigator();
+
 class Products extends Component {
   constructor(props) {
       super(props);
@@ -23,29 +23,23 @@ class Products extends Component {
   render() {
     const { products, navigation } = this.props
     return (
-        <View style={styles.container}>
-          
-        <View style={styles.body}>
-          <FlatList 
-            data={products} 
-            renderItem={({item}) => <Product item={item} addItemsToCart={this.addItemsToCart} product={item}/>}
-            keyExtractor ={(item) => item.id}
-            ItemSeparatorComponent= {()=> <View style={{height:0.5, backgroundColor:'#34495e90'}}/> }/>
-        </View>
-      </View>
+      <Stack.Navigator initialRouteName="Products">
+        <Stack.Screen name="Cart" component={Cart}/>
+        <Stack.Screen name="Checkout" component={Checkout}/>
+        <Stack.Screen name="Receipt" component={Receipt}/>
+        <Stack.Screen name="Products" 
+                      options={{ 
+                        headerTitle: 'Products' , 
+                        headerRight: () => (<Cart navigation={this.props.navigation}/>)}}>
+          {props => <ProductsComponent {...this.props} products={products} addToCart={this.addItemsToCart} />}
+        </Stack.Screen>
+      </Stack.Navigator>
     );
   }
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    body: {
-      flex: 1,
-      justifyContent: 'center'
-    }
-});
+
 const mapStateToProps = (state) => ({
     products: state.products.items
 })
+
 export default connect(mapStateToProps, {addToCart,fetchProducts})(Products);

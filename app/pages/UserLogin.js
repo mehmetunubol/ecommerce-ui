@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  Button
-} from 'react-native';
+import { TextInput, View, Text, Button } from 'react-native';
 import { userLogin } from '../redux/actions/userActions';
 
 class UserLogin extends Component {
@@ -19,7 +13,10 @@ class UserLogin extends Component {
     }
     login = () => {
         this.props.userLogin(this.state);
-    }
+	}
+	gotoRegister = () => {
+		this.props.navigation.navigate('Register');
+	}
 	render() {
         if (this.props.user.token) {
             this.props.navigation.navigate('Home');
@@ -46,7 +43,7 @@ class UserLogin extends Component {
 						}}
 						value={this.state.email}
 						onChangeText={(value) => this.setState({email: value})}
-						placeholder="Kullanıcı adı"/>
+						placeholder="Email"/>
 				</View>
 				<View>
 					<TextInput
@@ -55,40 +52,31 @@ class UserLogin extends Component {
 						}}
 						onChangeText={(value) => this.setState({password: value})}
 						value={this.state.password}
-						placeholder="Şifre"/>
+						placeholder="Password"/>
 				</View>
 				<View
 					style={{
 						height: 50
 					}}>
 					<Button
-					  	title="Giriş" // butonun yazısı
-					  	color="#4285f4" // arkaplan rengi
-					  	onPress={this.login} /* butona tıklandığında tetiklenecek fonksiyon*/ />
+					  	title="Login"
+					  	color="#4285f4"
+					  	onPress={this.login}/>
 				</View>
+				<View
+					style={{
+						height: 30
+					}}>
+					<Button
+					  	title="Register"
+					  	color="#1185f4"
+					  	onPress={this.gotoRegister}/>
+				</View>
+
 			</View>
         )
     }
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#F5FCFF',
-	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		margin: 10,
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	},
-});
 
 const mapStateToProps = (state) => ({
     user: state.user

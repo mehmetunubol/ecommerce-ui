@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 import OrderSummary from '../components/OrderSummary.component';
-import Logo from '../components/Logo.component';
-import Cart from '../components/Cart.component';
 import themes from '../styles/theme.style';
+
 class Receipt extends Component {
- static navigationOptions = ({navigation}) => {
-    return {
-      headerTitle: 'Receipt',
-      headerLeft: <Logo navigation={navigation}/>,
-      headerRight: <Cart navigation={navigation}/>
-    }
-  }
   getTotal(){
     let total = 0;
     const { items } = this.props;
@@ -27,6 +14,7 @@ class Receipt extends Component {
     return <Text style={styles.totText}>Total: ${(total).toFixed(2)}</Text>
   }
   render() {
+    console.log("Receipt : " + JSON.stringify(this.props));
     const { customer, items, navigation } = this.props;
     return (
       <View style={styles.container}>
@@ -90,8 +78,10 @@ const styles = StyleSheet.create({
         color: 'red'
     }
 });
+
 const mapStateToProps = (state) => ({
     customer: state.order.order.customer,
     items: state.order.order.items
 })
+
 export default connect(mapStateToProps)(Receipt);

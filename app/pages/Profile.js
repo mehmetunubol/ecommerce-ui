@@ -1,29 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Logo from '../components/Logo.component';
+import UserLogin from '../pages/UserLogin';
+import UserRegister from '../pages/UserRegister';
+import Orders from '../pages/Orders';
+import Settings from '../pages/Settings'
+import { userLogout } from '../redux/actions/userActions';
 
+const Stack = createStackNavigator();
+
+function ProfileScreen (props) {
+    const { user, userLogout, navigation} = props;
+    return (
+        <View>
+            <Text>Welcome '{user.name}'</Text>
+            <Button title="Orders" onPress={()=> {navigation.navigate('Orders')}}/>
+            <Button title="Settings" onPress={()=> {navigation.navigate('Settings')}}/>
+            <Button	title="Log out" color="#4285f4" onPress={userLogout}/>
+        </View> 
+    );
+}
 
 class Profile extends Component {
-    componentDidMount () {
-        const { navigation } = this.props;
-        this.props.navigation.setOptions({ 
-            headerTitle: 'Checkout',
-            headerLeft: () => (<Logo navigation={navigation}/>),
-            headerRight: () => (<Button title="Home" onPress={() => navigation.navigate('Home')}/>)
-        });
-    }
     render() {
         const { navigation, user } = this.props;
-        if (!user.token) navigation.navigate('Login');
+        console.log("Profile =>  " + JSON.stringify(this.props));
         return (
-            <ScrollView >
-                <View>
-                    <Text>{user.email}</Text>
-                </View>
-                <View>
-                    <Text>{user.password}</Text>
-                </View>
-            </ScrollView>
+            <Stack.Navigator initialRouteName={(user.token) ? "Profile" : "Login"}>
+            <Stack.Screen name="Profile"  
+                          options={{ 
+                            headerTitle: 'Profile' ,
+                            headerLeft: () => (<Logo navigation={navigation}/>)}}>
+              {props => <ProfileScreen {...this.props}/>}
+            </Stack.Screen>
+            <Stack.Screen name="Login" component={UserLogin}/>
+            <Stack.Screen name="Register" component={UserRegister}/>
+            <Stack.Screen name="Orders" component={Orders}/>
+            <Stack.Screen name="Settings" component={Settings}/>
+          </Stack.Navigator>
         );
     }
 }
@@ -31,6 +47,8 @@ class Profile extends Component {
 const mapStateToProps = (state) => ({
     user: state.user
 });
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    {userLogout}
 )(Profile);

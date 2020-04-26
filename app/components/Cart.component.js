@@ -1,54 +1,45 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    TouchableOpacity,
-    Animated
-} from 'react-native';
 import { connect } from 'react-redux';
+import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native';
+import Logo from '../components/Logo.component';
+
 export class Cart extends Component {
     constructor(props) {
       super(props);
-    
+        console.log("Cart Component");
       this.state = {
-        opacity: new Animated.Value(1),
-        cartItems: null
+        opacity: new Animated.Value(0),
+        cartItems: props.cartItems
       };
     }
-    getDerivedStateFromProps(props, state) {
-        if (props.cartItems !== state.cartItems) {
-            this.startAnimation();
-            return {
-                cartItems: props.cartItems,
-            };
-        }
-        return null;
-    }
-    startAnimation(){
+    startAnimation = () => {
+        console.log("startAnimation");
         Animated.timing(this.state.opacity,
         {
-            toValue: 0,
-            duration: 500
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
         }).start(()=> {
             setTimeout(()=> {
                 this.endAnimation()
-            }, 100);
+            }, 1000);
         })
     }
     endAnimation(){
         Animated.timing(this.state.opacity,
         {
-            toValue: 1,
-            duration: 500
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
         }).start()
     }
     onPress = () => {
-        this.props.navigation.navigate('Checkout');
+        this.props.navigation.navigate('Cart');
     }
     render() {
-        const { cartItems } = this.props;
-        let animatedStyle = {opacity: this.state.opacity}
+        const { cartItems, navigation} = this.props;
+        if(cartItems.length > 0 ) this.startAnimation();
+        let animatedStyle = {opacity:this.state.opacity}
         return (
             <Animated.View style={[styles.container, animatedStyle]}>
                 <TouchableOpacity onPress={this.onPress}>
@@ -58,9 +49,11 @@ export class Cart extends Component {
         );
     }
 }
+
 const mapStateToProps = (state) => ({
     cartItems: state.cart.cart
 });
+
 const styles = StyleSheet.create({
     container:{
         flex: 1,
@@ -68,10 +61,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cart:{
-        color: 'white',
+        color: 'red',
         fontSize: 14
     }
 })
+
 export default connect(
     mapStateToProps
 )(Cart);
