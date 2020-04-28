@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'CGNecommerce' do
-  # Pods for CGNecommerce
+target 'ecommerce-ui' do
+  # Pods for ecommerce-ui
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'CGNecommerce' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'CGNecommerceTests' do
+  target 'ecommerce-uiTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'CGNecommerce' do
   end
 end
 
-target 'CGNecommerce-tvOS' do
-  # Pods for CGNecommerce-tvOS
+target 'ecommerce-ui-tvOS' do
+  # Pods for ecommerce-ui-tvOS
 
-  target 'CGNecommerce-tvOSTests' do
+  target 'ecommerce-ui-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

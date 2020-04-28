@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { 
-    View, 
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Alert 
-} from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
 import { removeItem } from '../redux/actions/cartActions';
+
 class CartItems extends Component {
     state = {
         activeRowKey: null
@@ -52,6 +47,7 @@ class CartItems extends Component {
     );
     }
 }
+
 const styles = StyleSheet.create({
     container:{
         flex: 1
@@ -67,4 +63,5 @@ const styles = StyleSheet.create({
         padding: 10
     }
 });
+
 export default connect(null,{removeItem})(CartItems);

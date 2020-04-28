@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, View, Text, Button } from 'react-native';
-import { userRegister } from '../redux/actions/userActions';
+import { TextInput,View, Button } from 'react-native';
+import { userUpdate } from '../redux/actions/userActions';
 
-class UserRegister extends Component {
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
-            password: "",
-            email: "",
-            address: "",
+            ...props.user
         }
     }
-    register = () => {
-        this.props.userRegister(this.state);
+    update = () => {
+        this.props.userUpdate(this.state);
     }
 	render() {
-		console.log("UserRegister " + JSON.stringify(this.props));
-        if (this.props.user.token) {
-            this.props.navigation.navigate('Profile');
-        }
+		console.log("userUpdate " + JSON.stringify(this.props));
         return(
 			<View
 				style={{
@@ -29,13 +23,6 @@ class UserRegister extends Component {
 			        justifyContent: 'center',
 			        padding: 15
 				}}>
-                { this.props.user.authError &&
-                    <View>
-                        <Text style={{ height: 50 }}>
-                                {this.props.user.authError}
-                        </Text>
-                    </View>
-                }
 				<View>
 					<TextInput
 						style={{
@@ -66,7 +53,7 @@ class UserRegister extends Component {
 				<View>
 					<TextInput
 						style={{
-							height: 50
+							height: 200
 						}}
 						onChangeText={(value) => this.setState({address: value})}
 						value={this.state.address}
@@ -77,9 +64,9 @@ class UserRegister extends Component {
 						height: 50
 					}}>
 					<Button
-					  	title="Register"
+					  	title="Update"
 					  	color="#4285f4"
-					  	onPress={this.register}/>
+					  	onPress={this.update}/>
 				</View>
 			</View>
         )
@@ -90,4 +77,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, {userRegister})(UserRegister);
+export default connect(mapStateToProps, {userUpdate})(Settings);
